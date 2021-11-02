@@ -12,14 +12,16 @@ export class Grunt extends GameObject {
 		this.sprites.push(new Sprite("Grunt.png", loc));
 	}
 
+	private attackInterval: number = 5;
+	private attackPower: number = 25;
 	private speed: number = 2;
 	public path: Path;
+
+	private lastAttack: number = Number.MIN_VALUE;
 	private distanceInPath: number = 0;
 
 	update(world: World) {
 		if (this.path != null) {
-			const tt = this.path.getPointAtDistance(this.distanceInPath);
-			// console.log("aa", Trig.distance(tt, this.loc) - 0.62);
 			this.loc = this.path.getPointAtDistance(this.distanceInPath);
 			this.distanceInPath += this.speed * world.timeStep;
 		} else {
@@ -27,7 +29,11 @@ export class Grunt extends GameObject {
 			if (!!target) {
 				const dist = Trig.distance(target.loc, this.loc);
 				if (dist < 10) {
-					target.damaged(10, "Ground");
+					const timeDiff = world.time - this.lastAttack;
+					if (timeDiff > this.attackInterval) {
+						target.damaged(this.attackPower, "Ground");
+						this.lastAttack = world.time;
+					}
 				} else {
 					this.loc.add(Trig.normalize(target.loc, this.loc, this.speed * world.timeStep))
 				}

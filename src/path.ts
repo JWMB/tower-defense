@@ -45,6 +45,19 @@ export class Path {
 		}
 		return this.getPointAtDistance(fraction * this.length);
 	}
+
+	parse(def: string) {
+		/*
+		https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d
+    MoveTo: M, m
+    LineTo: L, l, H, h, V, v
+    Cubic Bézier Curve: C, c, S, s
+    Quadratic Bézier Curve: Q, q, T, t
+    Elliptical Arc Curve: A, a
+    ClosePath: Z, z
+*/
+
+	}
 }
 
 export abstract class SegmentTo {

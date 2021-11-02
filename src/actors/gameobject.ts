@@ -2,16 +2,6 @@ import { Point } from "../geometry/point";
 import { World } from "../world";
 import type { Sprite } from "./sprite";
 
-export interface IUpdate {
-	update(world: World);
-}
-export interface MovingObject {
-	loc: Point;
-	// speed: Point;
-
-	render();
-}
-
 export type XType = "Air" | "Ground";
 export class Attack {
 	damage: number;
@@ -27,7 +17,7 @@ export class Team {
 	}
 }
 
-export abstract class GameObject implements MovingObject, IUpdate {
+export abstract class GameObject {
 	loc: Point;
 	// speed: Point;
 
@@ -56,9 +46,6 @@ export abstract class GameObject implements MovingObject, IUpdate {
 	update(world: World) {
 	}
 
-	render() {
-	}
-
 	damaged(damage: number, type: XType) {
 		this.hp -= damage * (1 - this.defence);
 		if (this.hp <= 0) {
@@ -69,7 +56,7 @@ export abstract class GameObject implements MovingObject, IUpdate {
 	canBeRemoved() {
 		return this.hp <= 0 && (this.originalHp > 0 || this.hp < 0);
 	}
+	
 	die() {
-
 	}
 }
